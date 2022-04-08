@@ -306,6 +306,10 @@ $(document).ready(function () {
       alert("Bạn chưa nhập điểm");
       return false;
     }
+    if (isNaN(vInputs[0].value)) {
+      alert("Điểm phải là số");
+      return false;
+    }
     if (vInputs[0].value > 10 || vInputs[0].value < 0) {
       alert("Vui lòng Nhập điểm từ 0 tới 10");
       return false;
