@@ -53,7 +53,6 @@ $(document).ready(function () {
   console.log(gStudentDetails.students);
 
   var gColumnsName = Object.keys(gStudentDetails.students[0]);
-  gColumnsName.shift();
   gColumnsName.splice(0, 0, "STT");
 
   var gTable = $("#student-table").DataTable({
@@ -150,6 +149,7 @@ $(document).ready(function () {
       studentId: vStudenFilter,
       subjectId: vSubjectFilter,
     };
-    gStudentDetails.filterOrder(filterObject);
+    var vObjectfilter = gStudentDetails.filterOrder(filterObject);
+    loadTable(gTable, vObjectfilter);
   }
 });

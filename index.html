@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AdminLTE 3 | Blank Page</title>
+    <title>Quản lý bảng điểm</title>
 
     <link
       rel="stylesheet"
@@ -25,6 +25,9 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
     />
+    <!-- Select2 -->
+    <link rel="stylesheet" href="plugins/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css" />
     <!-- Theme style -->
@@ -177,13 +180,13 @@
                   <label for="student">Student</label>
                 </div>
                 <div class="col-sm-3">
-                  <select type="text" id="select-student" class="form-control"></select>
+                  <select type="text" id="select-student" class="form-control select2bs4"></select>
                 </div>
                 <div class="col-sm-2">
                   <label for="subject">Môn học</label>
                 </div>
                 <div class="col-sm-3">
-                  <select type="text" id="select-subject" class="form-control"></select>
+                  <select type="text" id="select-subject" class="form-control select2bs4"></select>
                 </div>
                 <div class="col-sm-2">
                   <div class="col d-flex justify-content-end">
@@ -228,7 +231,20 @@
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
     <script src="./script.js"></script>
+    <!-- Select2 -->
+    <script src="plugins/select2/js/select2.full.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
+    <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+
+        //Initialize Select2 Elements
+        $(".select2bs4").select2({
+          theme: "bootstrap4",
+        });
+      });
+    </script>
   </body>
 </html>
