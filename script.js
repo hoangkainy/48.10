@@ -18,6 +18,7 @@ $(document).ready(function () {
   };
 
   // Get API database
+  //Students
   $.ajax({
     url: `${gBASE_URL}/students`,
     type: "GET",
@@ -28,6 +29,7 @@ $(document).ready(function () {
     error: (err) => console.log(err.status),
   });
 
+  //Subjects
   $.ajax({
     url: `${gBASE_URL}/subjects`,
     type: "GET",
@@ -38,6 +40,7 @@ $(document).ready(function () {
     error: (err) => console.log(err.status),
   });
 
+  //Grades
   $.ajax({
     url: `${gBASE_URL}/grades`,
     type: "GET",
@@ -47,10 +50,6 @@ $(document).ready(function () {
     },
     error: (err) => console.log(err.status),
   });
-
-  console.log(gSTUNDENTS_LIST);
-  console.log(gSUBJECTS_LIST);
-  console.log(gStudentDetails.students);
 
   var gColumnsName = Object.keys(gStudentDetails.students[0]);
   gColumnsName.splice(0, 0, "STT");
@@ -95,11 +94,127 @@ $(document).ready(function () {
       },
     ],
   });
+  var vId;
   /*** REGION 2 - Vùng gán / thực thi sự kiện cho các elements */
 
   onPageLoading();
   $("#btn-filter").on("click", filterStudent);
+
+  $("#student-table").on("click", ".fa-trash", function () {
+    $("#delete-modal").modal("show");
+    var vRowData = getValueRowTable(this, gTable);
+    vId = vRowData.id;
+  });
+
+  $("#btn-delete").on("click", function () {
+    $.ajax({
+      url: `${gBASE_URL}/grades/${vId}`,
+      type: "DELETE",
+      async: false,
+      success: (res) => {
+        alert("Bạn đã xóa thành công");
+        reloadData();
+        $("#delete-modal").modal("hide");
+      },
+      error: (err) => console.log(err.status),
+    });
+  });
+
+  $("#student-table").on("click", ".fa-edit", function () {
+    $("#edit-modal").modal("show");
+    //load option to select
+    importOptionToSelect("#select-student-edit", gSTUNDENTS_LIST);
+    $("#select-student-edit option:first-child").remove();
+    importOptionToSelect("#select-subject-edit", gSUBJECTS_LIST);
+    $("#select-subject-edit option:first-child").remove();
+
+    var vRowData = getValueRowTable(this, gTable);
+    vId = vRowData.id;
+    $.ajax({
+      url: `${gBASE_URL}/grades/${vId}`,
+      type: "GET",
+      async: false,
+      success: (res) => {
+        var vObject = res;
+        importValueToFormInput("#edit-modal", vObject);
+      },
+      error: (err) => console.log(err.status),
+    });
+  });
+
+  $("#btn-confirm").on("click", function () {
+    var vObject = getValueFormInput("#edit-form");
+    var isValid = validateData("#edit-form");
+    if (isValid) {
+      $.ajax({
+        url: gBASE_URL + "/grades",
+        type: "PUT",
+        async: false,
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify(vObject),
+        success: (res) => {
+          alert("Bạn đã thêm chỉnh sửa thành công");
+          reloadData();
+          resetForm("#edit-form");
+          $("#edit-modal").modal("hide");
+        },
+        error: (err) => alert("Thất bại"),
+      });
+    }
+  });
+
+  $("#btn-add").on("click", function () {
+    $("#insert-modal").modal("show");
+    //load option to select
+    importOptionToSelect("#select-student-insert", gSTUNDENTS_LIST);
+    // $("#select-student-insert option:first-child").remove();
+    $("#select-student-insert option:first-child").text("Chọn tên sinh viên");
+    importOptionToSelect("#select-subject-insert", gSUBJECTS_LIST);
+    $("#select-subject-insert option:first-child").text("Chọn môn học");
+  });
+
+  $("#btn-insert").on("click", function () {
+    var vObject = getValueFormInput("#insert-form");
+    var isValid = validateData("#insert-form");
+    if (isValid) {
+      $.ajax({
+        url: gBASE_URL + "/grades",
+        type: "POST",
+        async: false,
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify(vObject),
+        success: (res) => {
+          alert("Bạn đã thêm mới thành công");
+          reloadData();
+          resetForm("#insert-form");
+          $("#insert-modal").modal("hide");
+        },
+        error: (err) => alert("Thêm mới thất bại"),
+      });
+    }
+  });
+
   /*** REGION 3 - Event handlers - Vùng khai báo các hàm xử lý sự kiện */
+  function reloadData() {
+    $.ajax({
+      url: `${gBASE_URL}/grades`,
+      type: "GET",
+      async: false,
+      success: (response) => {
+        loadTable(gTable, response);
+      },
+      error: function (paramErr) {
+        console.log(paramErr.status);
+      },
+    });
+  }
+
+  function resetForm(paramSelector) {
+    var vInputElements = $(`${paramSelector} [name]`);
+    for (var vInput of vInputElements) {
+      vInput.value = "";
+    }
+  }
 
   /*** REGION 4 - Common funtions - Vùng khai báo hàm dùng chung trong toàn bộ chương trình*/
 
@@ -116,6 +231,7 @@ $(document).ready(function () {
   }
 
   function importOptionToSelect(paramSelect, paramObject) {
+    $(`${paramSelect} option`).remove();
     var keys = Object.keys(paramObject[0]);
     var vSelect = $(paramSelect);
 
@@ -151,5 +267,53 @@ $(document).ready(function () {
     };
     var vObjectfilter = gStudentDetails.filterOrder(filterObject);
     loadTable(gTable, vObjectfilter);
+  }
+
+  function getValueRowTable(paramButton, paramTable) {
+    var vTableRow = $(paramButton).parents("tr");
+    var vRowData = paramTable.row(vTableRow).data();
+    return vRowData;
+  }
+
+  function importValueToFormInput(paramSelector, paramObject) {
+    var vInputElements = $(`${paramSelector} [name]`);
+    for (var vInput of vInputElements) {
+      vInput.value = paramObject[vInput.name];
+    }
+  }
+
+  function getValueFormInput(paramSelector) {
+    var vInputElement = $(`${paramSelector} [name]`);
+    var vObject = {};
+    for (var i = 0; i < vInputElement.length; i++) {
+      vObject[vInputElement[i].name] = vInputElement[i].value;
+    }
+    return vObject;
+  }
+
+  function validateData(paramSelector) {
+    var vSelects = $(`${paramSelector} select`);
+    var vInputs = $(`${paramSelector} input`);
+    if (vSelects[0].value == 0) {
+      alert("Bạn chưa chọn Sinh viên");
+      return false;
+    }
+    if (vSelects[1].value == 0) {
+      alert("Bạn chưa chọn Môn học");
+      return false;
+    }
+    if (!vInputs[0].value) {
+      alert("Bạn chưa nhập điểm");
+      return false;
+    }
+    if (vInputs[0].value > 10 || vInputs[0].value < 0) {
+      alert("Vui lòng Nhập điểm từ 0 tới 10");
+      return false;
+    }
+    if (!vInputs[1].value) {
+      alert("Bạn chưa chọn ngày");
+      return false;
+    }
+    return true;
   }
 });

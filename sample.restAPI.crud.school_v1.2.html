@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <title> All APIs sample cho Devcamp Project</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <head>
+    <title>All APIs sample cho Devcamp Project</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</head>
-<style>
+  </head>
+  <style>
     .divider {
-        border-bottom: 2px solid #0163ee;
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-        width: 23rem;
+      border-bottom: 2px solid #0163ee;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      width: 23rem;
     }
-</style>
-<script>
+  </style>
+  <script>
     const gREQUEST_STATUS_OK = 200;
     const gREQUEST_CREATE_OK = 201; // status 201 là tạo mới thành công
     const gREQUEST_READY_STATUS_FINISH_AND_OK = 4;
@@ -28,145 +30,176 @@
 
     // API lấy danh sách sinh viên (Students)
     function onGetStudentListClick() {
-        var vAPI_URL = gBASE_URL + "/students";
-        var vXhttp = new XMLHttpRequest();
-        vXhttp.onreadystatechange = function () {
-            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
-                console.log(vXhttp.responseText); // ghi response text ra console.log
-            }
-        };
-        vXhttp.open("GET", vAPI_URL, true);
-        vXhttp.send();
+      var vAPI_URL = gBASE_URL + "/students";
+      var vXhttp = new XMLHttpRequest();
+      vXhttp.onreadystatechange = function () {
+        if (
+          this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK &&
+          this.status == gREQUEST_STATUS_OK
+        ) {
+          console.log(vXhttp.responseText); // ghi response text ra console.log
+        }
+      };
+      vXhttp.open("GET", vAPI_URL, true);
+      vXhttp.send();
     }
 
     // API lấy danh sách môn học (Subjects)
     function onGetSubjectListClick() {
-        var vAPI_URL = gBASE_URL + "/subjects";
-        var vXhttp = new XMLHttpRequest();
-        vXhttp.onreadystatechange = function () {
-            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
-                console.log(vXhttp.responseText); //ghi response text ra console.log
-            }
-        };
-        vXhttp.open("GET", vAPI_URL, true);
-        vXhttp.send();
+      var vAPI_URL = gBASE_URL + "/subjects";
+      var vXhttp = new XMLHttpRequest();
+      vXhttp.onreadystatechange = function () {
+        if (
+          this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK &&
+          this.status == gREQUEST_STATUS_OK
+        ) {
+          console.log(vXhttp.responseText); //ghi response text ra console.log
+        }
+      };
+      vXhttp.open("GET", vAPI_URL, true);
+      vXhttp.send();
     }
 
     // API lấy danh sách điểm - get all (grades)
     function onBtnGetAllGradeClick() {
-        const vAPI_URL = gBASE_URL + "/grades";
-        // create a request
-        var vXmlHttp = new XMLHttpRequest();
-        vXmlHttp.open("GET", vAPI_URL, true);
-        vXmlHttp.send();
-        vXmlHttp.onreadystatechange = function () {
-            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
-                console.log(vXmlHttp.responseText);
-            }
+      const vAPI_URL = gBASE_URL + "/grades";
+      // create a request
+      var vXmlHttp = new XMLHttpRequest();
+      vXmlHttp.open("GET", vAPI_URL, true);
+      vXmlHttp.send();
+      vXmlHttp.onreadystatechange = function () {
+        if (
+          this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK &&
+          this.status == gREQUEST_STATUS_OK
+        ) {
+          console.log(vXmlHttp.responseText);
         }
+      };
     }
 
     // API lấy chi tiết 01 grade by id
     function onGetGradeByIdClick() {
-        const vAPI_URL = gBASE_URL + "/grades/";
-        var vGradeId = 2;
+      const vAPI_URL = gBASE_URL + "/grades/";
+      var vGradeId = 2;
 
-        var vXmlHttp = new XMLHttpRequest();
-        vXmlHttp.open("GET", vAPI_URL + vGradeId, true);
-        vXmlHttp.send();
-        vXmlHttp.onreadystatechange = function () {
-            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
-                console.log(vXmlHttp.responseText);
-            }
+      var vXmlHttp = new XMLHttpRequest();
+      vXmlHttp.open("GET", vAPI_URL + vGradeId, true);
+      vXmlHttp.send();
+      vXmlHttp.onreadystatechange = function () {
+        if (
+          this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK &&
+          this.status == gREQUEST_STATUS_OK
+        ) {
+          console.log(vXmlHttp.responseText);
         }
+      };
     }
 
     // API tạo (Create) một grade mới
     function onCreateGradeClick() {
-        const vAPI_URL = gBASE_URL + "/grades";
-        // đối tượng grade sẽ được tạo mới
-        var vGradeObjRequest = {
-                studentId: 1,
-                subjectId: 2,
-                grade: 8,
-                examDate: "12/03/2021"
-            };
-        
-        var vXmlHttp = new XMLHttpRequest();
-        vXmlHttp.open("POST", vAPI_URL, true);
-        vXmlHttp.setRequestHeader("Content-Type", "application/json");
-        vXmlHttp.send(JSON.stringify(vGradeObjRequest));
-        
-        vXmlHttp.onreadystatechange = function () {
-            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_CREATE_OK) {
-                console.log(vXmlHttp.responseText);
-            }
+      const vAPI_URL = gBASE_URL + "/grades";
+      // đối tượng grade sẽ được tạo mới
+      var vGradeObjRequest = {
+        studentId: 1,
+        subjectId: 2,
+        grade: 8,
+        examDate: "12/03/2021",
+      };
+
+      var vXmlHttp = new XMLHttpRequest();
+      vXmlHttp.open("POST", vAPI_URL, true);
+      vXmlHttp.setRequestHeader("Content-Type", "application/json");
+      vXmlHttp.send(JSON.stringify(vGradeObjRequest));
+
+      vXmlHttp.onreadystatechange = function () {
+        if (
+          this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK &&
+          this.status == gREQUEST_CREATE_OK
+        ) {
+          console.log(vXmlHttp.responseText);
         }
+      };
     }
 
     // API để sửa (update) một grade theo Id
     function onUpdateGradeClick() {
-        const vAPI_URL = gBASE_URL + "/grades/";
-        // id grade cần sửa
-        var vGradeId = 2;
-        // đối tượng grade sẽ được sửa
-        var vGradeObjRequest = {
-                studentId: 1,
-                subjectId: 2,
-                grade: 8,
-                examDate: "12/03/2021"
-            };
+      const vAPI_URL = gBASE_URL + "/grades/";
+      // id grade cần sửa
+      var vGradeId = 2;
+      // đối tượng grade sẽ được sửa
+      var vGradeObjRequest = {
+        studentId: 1,
+        subjectId: 2,
+        grade: 8,
+        examDate: "12/03/2021",
+      };
 
-        var vXmlHttp = new XMLHttpRequest();
-        vXmlHttp.open("PUT", vAPI_URL + vGradeId, true);
-        vXmlHttp.setRequestHeader("Content-Type", "application/json");
-        vXmlHttp.send(JSON.stringify(vGradeObjRequest));
+      var vXmlHttp = new XMLHttpRequest();
+      vXmlHttp.open("PUT", vAPI_URL + vGradeId, true);
+      vXmlHttp.setRequestHeader("Content-Type", "application/json");
+      vXmlHttp.send(JSON.stringify(vGradeObjRequest));
 
-        vXmlHttp.onreadystatechange = function () {
-            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
-                console.log(vXmlHttp.responseText);
-            }
+      vXmlHttp.onreadystatechange = function () {
+        if (
+          this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK &&
+          this.status == gREQUEST_STATUS_OK
+        ) {
+          console.log(vXmlHttp.responseText);
         }
+      };
     }
 
     // API để xóa (delete) một grade theo Id
     function onDeleteGradeClick() {
-        const vAPI_URL = gBASE_URL + "/grades/";
-        // id grade sẽ xóa
-        var vGradeId = 3;
-        
-        var vXmlhttp = new XMLHttpRequest();
-        vXmlhttp.open("DELETE", vAPI_URL + vGradeId, true);
-        vXmlhttp.send();
+      const vAPI_URL = gBASE_URL + "/grades/";
+      // id grade sẽ xóa
+      var vGradeId = 119;
 
-        vXmlhttp.onreadystatechange = function() {
-            // xóa thành công user
-            if (this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK && this.status == gREQUEST_STATUS_OK) {
-                console.log("Delete user " + vGradeId + " thành công!");
-            }
+      var vXmlhttp = new XMLHttpRequest();
+      vXmlhttp.open("DELETE", vAPI_URL + vGradeId, true);
+      vXmlhttp.send();
+
+      vXmlhttp.onreadystatechange = function () {
+        // xóa thành công user
+        if (
+          this.readyState == gREQUEST_READY_STATUS_FINISH_AND_OK &&
+          this.status == gREQUEST_STATUS_OK
+        ) {
+          console.log("Delete user " + vGradeId + " thành công!");
         }
+      };
     }
+  </script>
 
-</script>
-
-<body>
+  <body>
     <div class="container mt-4">
-        <div class="row form-group">
-            <strong class="text-danger"> Bật console log để nhìn rõ output </strong>
-        </div>
-        <div class="row form-group">
-            <p id="testP" class="h4"> Demo 07 API cho dự án Quản lý bảng điểm: </p>
-        </div>
-        <div class="row form-group">
-            <button  class="btn btn-info m-1" onclick="onGetStudentListClick()">Lấy danh sách Sinh viên</button>
-            <button  class="btn btn-primary m-1" onclick="onGetSubjectListClick()">Lấy danh sách Môn học</button>
-            <button  class="btn btn-info m-1" onclick="onBtnGetAllGradeClick()">Lấy danh sách điểm</button>
-            <button  class="btn btn-warning m-1" onclick="onGetGradeByIdClick()">Lấy chi tiết 1 điểm theo id</button>
-            <button  class="btn btn-success m-1" onclick="onCreateGradeClick()">Tạo mới điểm (Create)</button>
-            <button  class="btn btn-primary m-1" onclick="onUpdateGradeClick()">Sửa điểm (Update)</button>
-            <button  class="btn btn-danger m-1" onclick="onDeleteGradeClick()">Xóa điểm (Delete)</button>
-        </div>
+      <div class="row form-group">
+        <strong class="text-danger"> Bật console log để nhìn rõ output </strong>
+      </div>
+      <div class="row form-group">
+        <p id="testP" class="h4">Demo 07 API cho dự án Quản lý bảng điểm:</p>
+      </div>
+      <div class="row form-group">
+        <button class="btn btn-info m-1" onclick="onGetStudentListClick()">
+          Lấy danh sách Sinh viên
+        </button>
+        <button class="btn btn-primary m-1" onclick="onGetSubjectListClick()">
+          Lấy danh sách Môn học
+        </button>
+        <button class="btn btn-info m-1" onclick="onBtnGetAllGradeClick()">
+          Lấy danh sách điểm
+        </button>
+        <button class="btn btn-warning m-1" onclick="onGetGradeByIdClick()">
+          Lấy chi tiết 1 điểm theo id
+        </button>
+        <button class="btn btn-success m-1" onclick="onCreateGradeClick()">
+          Tạo mới điểm (Create)
+        </button>
+        <button class="btn btn-primary m-1" onclick="onUpdateGradeClick()">
+          Sửa điểm (Update)
+        </button>
+        <button class="btn btn-danger m-1" onclick="onDeleteGradeClick()">Xóa điểm (Delete)</button>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>
